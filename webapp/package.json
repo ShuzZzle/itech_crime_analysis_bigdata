@@ -11,14 +11,14 @@
   },
   "keywords": [
     "ui5",
-	"crime",
-	"data",
-	"visualisation"
+    "crime",
+    "data",
+    "visualisation"
   ],
   "author": "Merlin Reichwald <merlin.reichwald@gmail.com>, Niclas Schad <niclas.schad@gmail.com>",
   "license": "UNLICENSED",
   "dependencies": {
-    "gulp": "^3.9.1",
+    "gulp": "3.9.0",
     "gulp-autoprefixer": "^6.0.0",
     "gulp-clean": "^0.4.0",
     "gulp-coffee": "^3.0.2",
