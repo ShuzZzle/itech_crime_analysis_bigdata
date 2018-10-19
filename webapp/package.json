@@ -1,0 +1,44 @@
+{
+  "name": "crime-data-visualisation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "gulp build",
+    "watch": "gulp watch",
+    "dev": "gulp dev",
+    "serve": "gulp serve"
+  },
+  "keywords": [
+    "ui5",
+	"crime",
+	"data",
+	"visualisation"
+  ],
+  "author": "Merlin Reichwald <merlin.reichwald@gmail.com>, Niclas Schad <niclas.schad@gmail.com>",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^6.0.0",
+    "gulp-clean": "^0.4.0",
+    "gulp-coffee": "^3.0.2",
+    "gulp-concat-util": "^0.5.5",
+    "gulp-cssnano": "^2.1.3",
+    "gulp-minify-html": "^1.0.6",
+    "gulp-pretty-data": "^0.1.2",
+    "gulp-rename": "^1.4.0",
+    "gulp-sass": "^4.0.1",
+    "gulp-sass-lint": "^1.4.0",
+    "gulp-sequence": "^1.0.0",
+    "gulp-serve": "^1.4.0",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-tap": "^1.0.1",
+    "gulp-uglify": "^3.0.1"
+  },
+  "ui5": {
+    "ns": "de.itech_bs14.it7x.itws.bigdata",
+    "nx": "de/itech_bs14/it7x/itws/bigdata",
+    "nc": "deItechBs14It7xItwsBigdata",
+    "title": "Crime Data Visualisation"
+  }
+}

@@ -1,0 +1,9 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<mvc:View
+  xmlns="sap.m"
+  xmlns:l="sap.ui.layout"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns:cc="§ns§.control"
+  displayBlock="true">
+  <App id="app" />
+</mvc:View>

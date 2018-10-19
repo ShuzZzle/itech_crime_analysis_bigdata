@@ -1,0 +1,26 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<mvc:View
+  xmlns="sap.m"
+  xmlns:l="sap.ui.layout"
+  xmlns:f="sap.ui.layout.form"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns:cc="§ns§.control"
+  controllerName="§ns§.controller.Default"
+  displayBlock="true">
+  <Page title="{i18n>default.title}">
+    <f:SimpleForm
+      title="{i18n>default.form.title}"
+      layout="ResponsiveGridLayout"
+      editable="true">
+
+      <Title text="{i18n>default.form.section1.title}" />
+
+      <Label text="{i18n>default.form.label1.text}" />
+      <Input />
+
+    </f:SimpleForm>
+    <Panel>
+
+    </Panel>
+  </Page>
+</mvc:View>
