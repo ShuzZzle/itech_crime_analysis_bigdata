@@ -12,7 +12,7 @@
       resourceRoots: { "§ns§" : "./static/" },
     });
     loader.loadApp( '§ns§' ).then(function(){
-      loader._sugar = $.getScript('./static/ext/sugar.min.js').done(function(){
+      loader._sugar = $.getScript('./static/ext/sugar-custom.js').done(function(){
         Sugar.extend();
         var codes = Sugar.Date.getAllLocaleCodes();
         var code = sap.ui.getCore().getConfiguration().getLanguage() || 'en-US';

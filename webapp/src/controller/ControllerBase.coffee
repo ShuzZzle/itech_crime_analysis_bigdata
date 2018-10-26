@@ -12,10 +12,11 @@ sap.ui.define [
           .attachPatternMatched( @_onPatternMatched.bind( @ ) )
           .attachMatched( @onRouteMatched.bind( @ ) )
       @initModels()
+      @
 
     _onPatternMatched: (evt) ->
       args = evt.getParameter 'arguments'
-      route = @getModel "route"
+      route = @getRouteModel()
       args = Object.map( args, urlparsing.parse.bind( urlparsing ) )
       $.extend args, @getRouteDefaults()
       route.setData args
@@ -24,6 +25,7 @@ sap.ui.define [
 
     initModels: ->
       @setModel new JSONModel({}), "route"
+      @
 
     getRouter: ->
       @getOwnerComponent().getRouter()
@@ -33,13 +35,11 @@ sap.ui.define [
 
     setModel: (model, name) ->
       @getView().setModel model, name
+      @
 
     i18n: ->
       rb = @getModel('i18n').getResourceBundle()
       rb.getText.apply rb, arguments
-
-    byId: ->
-      @getView().byId.apply @getView(), arguments
 
     getRouteName: ->
       undefined
@@ -47,14 +47,21 @@ sap.ui.define [
     getRouteDefaults: ->
       {}
 
+    getRouteModel: ->
+      @getModel( "route" )
+
+    refreshRoute: ( newData ) ->
+      @navTo @getRouteName(), $.extend( {}, @getRouteModel().getData(), newData )
+      @
+
     onPatternMatched: ->
-      undefined
+      @
 
     onRouteMatched: ->
-      undefined
+      @
 
     setRouteParams: (values) ->
-      existing = @getModel( "route" ).getData()
+      existing = @getRouteModel().getData()
       if typeof values == 'function'
         values = values.call( @, values )
       newvals = Object.map $.extend( {}, existing, values ), urlparsing.serialize.bind( urlparsing )
@@ -67,11 +74,14 @@ sap.ui.define [
         @navHome()
       else
         window.history.go( -1 )
+      @
 
     navTo: ->
       router = @getRouter()
       router.navTo.apply router, arguments
+      @
 
     navHome: ->
-      @getRouter().navTo "default"
+      @navTo "default"
+      @
   }
