@@ -14,15 +14,18 @@ const gulp_serve        = require('gulp-serve');
 const gulp_clean        = require('gulp-clean');
 const gulp_sequence     = require('gulp-sequence');
 const gulp_pretty_data  = require('gulp-pretty-data');
+const gulp_babel        = require('gulp-babel');
 
 const path              = require('path');
 const pkg               = require('./package.json');
 const ui5               = pkg.ui5;
 const manifest          = require('./src/manifest.json');
+const fs                = require('fs');
 
 const config_sourcemaps = { sourceRoot: `/~src~` };
 const config_xmlminify  = { type: 'minify' };
 const config_varreplace = function( file, t ) { file.contents = Buffer.from( replaceVar( file.contents.toString() ) ); };
+const config_babel      = { presets: [ '@babel/env' ] }
 
 
 function resolveObjectPath( path, object ) {
@@ -68,6 +71,9 @@ gulp.task('build:componentpreload',()=>{
         return t.through( gulp_coffee );
     }))
     .pipe( gulp_tap( function( file, t ) {
+      if ( path.extname( file.path ) === '.js' ) return t.through( gulp_babel.bind( undefined, config_babel ) )
+    }))
+    .pipe( gulp_tap( function( file, t ) {
       switch ( path.extname( file.path ) ) {
         case '.js':     return t.through( gulp_uglify );
         case '.xml':    return t.through( gulp_minify_html );
@@ -103,6 +109,7 @@ gulp.task('build:js',()=>{
       if ( path.extname( file.path ) === '.coffee' )
         return t.through( gulp_coffee );
     }))
+    .pipe( gulp_babel( config_babel ) )
     .pipe( gulp_uglify() )
     .pipe( gulp_sourcemaps.write( config_sourcemaps ) )
     .pipe( gulp.dest('dest') );
