@@ -42,6 +42,7 @@
     "ns": "de.itech_bs14.it7x.itws.bigdata",
     "nx": "de/itech_bs14/it7x/itws/bigdata",
     "nc": "deItechBs14It7xItwsBigdata",
-    "title": "Crime Data Visualisation"
+    "title": "Crime Data Visualisation",
+    "static": "."
   }
 }

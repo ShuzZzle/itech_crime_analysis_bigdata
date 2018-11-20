@@ -124,9 +124,9 @@ gulp.task('build:json',()=>{
 gulp.task('build:xml',()=>{
   return gulp.src(['src/**/*.xml'])
     .pipe( gulp_tap( function( file, t ) { file.contents = Buffer.from( replaceVar( file.contents.toString() ) ); }))
-    .pipe( gulp_sourcemaps.init() )
-    .pipe( gulp_pretty_data( config_xmlminify ) )
-    .pipe( gulp_sourcemaps.write( config_sourcemaps ) )
+//    .pipe( gulp_sourcemaps.init() )
+//    .pipe( gulp_pretty_data( config_xmlminify ) )
+//    .pipe( gulp_sourcemaps.write( config_sourcemaps ) )
     .pipe( gulp.dest('dest') );
 });
 

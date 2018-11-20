@@ -4,15 +4,16 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta charset="utf-8" />
     <meta http-equiv='X-UA-Compatible' content='IE=edge' />
-    <link rel="stylesheet" href="./static/css/main.css" type="text/css" />
+    <link rel="stylesheet" href="§static§/css/main.css" type="text/css" />
     <title>§title§</title>
-    <script src="./static/ui5loader.js"></script>
+    <script src="§static§/ui5loader.js"></script>
     <script>
     var loader = new UI5Loader({
-      resourceRoots: { "§ns§" : "./static/" },
+      resourceRoots: { "§ns§" : "§static§/" },
+      url: "https://sapui5.hana.ondemand.com/resources/sap-ui-core.js"
     });
     loader.loadApp( '§ns§' ).then(function(){
-      loader._sugar = $.getScript('./static/ext/sugar-custom.js').done(function(){
+      loader._sugar = $.getScript('§static§/ext/sugar-custom.js').done(function(){
         Sugar.extend();
         var codes = Sugar.Date.getAllLocaleCodes();
         var code = sap.ui.getCore().getConfiguration().getLanguage() || 'en-US';
