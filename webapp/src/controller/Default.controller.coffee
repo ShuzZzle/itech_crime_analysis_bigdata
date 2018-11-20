@@ -41,7 +41,7 @@ sap.ui.define [
           name: "Count"
           value: "count"
         }],
-        data: { path: '/crimes' }
+        data: { path: '/crimes?group=year' }
       })
       feedCount  = new FeedItem({ uid: "primaryValues", type: "Measure",   values: ["Count"] })
       feedLabels = new FeedItem({ uid: "axisLabels",    type: "Dimension", values: ["Year"] })
@@ -70,7 +70,7 @@ sap.ui.define [
           name: "Count"
           value: "count"
         }],
-        data: { path: '/crimes' }
+        data: { path: '/crimes?group=year,district' }
       })
       vizopts = {
         height: "700px",
@@ -103,7 +103,7 @@ sap.ui.define [
           name: "Count"
           value: "count"
         }],
-        data: { path: '/crimes' }
+        data: { path: '/crimes?group=year,primary_type' }
       })
       vizopts = {
         height: "700px",
