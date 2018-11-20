@@ -43,6 +43,8 @@ sap.ui.define [
         }],
         data: { path: '/crimes' }
       })
+      feedCount  = new FeedItem({ uid: "primaryValues", type: "Measure",   values: ["Count"] })
+      feedLabels = new FeedItem({ uid: "axisLabels",    type: "Dimension", values: ["Year"] })
       chart = new VizFrame({
         height: "700px",
         width: "100%",
@@ -50,7 +52,7 @@ sap.ui.define [
           applicationSet: "fiori"
         }
       })
-      chart.setDataset dataset
+      chart.setDataset( dataset ).addFeed( feedCount.clone() ).addFeed( feedLabels.clone() )
       @byId("chartContainer").addContent(new ChartContainerContent({
         content: chart
       }))
@@ -77,11 +79,13 @@ sap.ui.define [
           applicationSet: "fiori"
         }
       }
+      feedCount  = new FeedItem({ uid: "primaryValues", type: "Measure",   values: ["Count"] })
+      feedLabels = new FeedItem({ uid: "axisLabels",    type: "Dimension", values: ["Year","District"] })
       container = @byId "chartContainer"
       charts = [
-        new VizFrame(vizopts).setDataset( dataset.clone() )
-        new VizFrame(vizopts).setDataset( dataset.clone() )
-        new VizFrame(vizopts).setDataset( dataset.clone() )
+        new VizFrame(vizopts).setDataset( dataset.clone() ).addFeed( feedCount.clone() ).addFeed( feedLabels.clone() )
+        new VizFrame(vizopts).setDataset( dataset.clone() ).addFeed( feedCount.clone() ).addFeed( feedLabels.clone() )
+        new VizFrame(vizopts).setDataset( dataset.clone() ).addFeed( feedCount.clone() ).addFeed( feedLabels.clone() )
       ].map( (chart) -> new ChartContainerContent({ content: chart }) ).forEach( (content) ->
         container.addContent( content )
       )
@@ -108,11 +112,13 @@ sap.ui.define [
           applicationSet: "fiori"
         }
       }
+      feedCount  = new FeedItem({ uid: "primaryValues", type: "Measure",   values: ["Count"] })
+      feedLabels = new FeedItem({ uid: "axisLabels",    type: "Dimension", values: ["Year","Type"] })
       container = @byId "chartContainer"
       charts = [
-        new VizFrame(vizopts).setDataset( dataset.clone() )
-        new VizFrame(vizopts).setDataset( dataset.clone() )
-        new VizFrame(vizopts).setDataset( dataset.clone() )
+        new VizFrame(vizopts).setDataset( dataset.clone() ).addFeed( feedCount.clone() ).addFeed( feedLabels.clone() )
+        new VizFrame(vizopts).setDataset( dataset.clone() ).addFeed( feedCount.clone() ).addFeed( feedLabels.clone() )
+        new VizFrame(vizopts).setDataset( dataset.clone() ).addFeed( feedCount.clone() ).addFeed( feedLabels.clone() )
       ].map( (chart) -> new ChartContainerContent({ content: chart }) ).forEach( (content) ->
         container.addContent( content )
       )
