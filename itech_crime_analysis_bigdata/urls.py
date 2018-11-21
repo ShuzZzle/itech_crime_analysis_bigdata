@@ -18,12 +18,12 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 from webapp.views import index
-from api.views import CrimeViewSet
+from api.views import CrimeView
 from rest_framework.routers import SimpleRouter
 
 
 router = SimpleRouter()
-router.register(r'crimes', CrimeViewSet)
+router.register(r'crimes', CrimeView)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

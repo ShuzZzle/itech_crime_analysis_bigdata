@@ -5,8 +5,10 @@ sap.ui.define [
   'sap/ui/model/Filter'
   'sap/viz/ui5/controls/common/feeds/AnalysisObject'
   'sap/viz/ui5/controls/VizFrame'
-    'sap/suite/ui/commons/ChartContainerContent'
-], (ControllerBase, FlattenedDataset, FeedItem, Filter, AnalysisObject, VizFrame, ChartContainerContent) ->
+  'sap/suite/ui/commons/ChartContainerContent'
+  'sap/ui/model/json/JSONModel'
+  'sap/viz/ui5/controls/Popover'
+], (ControllerBase, FlattenedDataset, FeedItem, Filter, AnalysisObject, VizFrame, ChartContainerContent, JSONModel, Popover) ->
   ControllerBase.extend '§ns§.controller.Default',
 
     getRouteName: -> 'default'
@@ -32,6 +34,10 @@ sap.ui.define [
         when "type" then @buildTypeCharts()
 
     buildYearCharts: ->
+      model = new JSONModel({ crimes: [] });
+      $.ajax({ method: 'GET', url: '/api/crimes/?group=year', headers: { 'Content-Type': 'application/json' } }).then( (data) ->
+        model.setData({ crimes: data });
+      );
       dataset = new FlattenedDataset({
         dimensions: [{
           name: "Year"
@@ -39,10 +45,11 @@ sap.ui.define [
         }],
         measures: [{
           name: "Count"
-          value: "count"
+          value: "{count}"
         }],
-        data: { path: '/crimes?group=year' }
+        data: { path: '/crimes' }
       })
+      dataset.setModel( model );
       feedCount  = new FeedItem({ uid: "primaryValues", type: "Measure",   values: ["Count"] })
       feedLabels = new FeedItem({ uid: "axisLabels",    type: "Dimension", values: ["Year"] })
       chart = new VizFrame({
@@ -56,8 +63,14 @@ sap.ui.define [
       @byId("chartContainer").addContent(new ChartContainerContent({
         content: chart
       }))
+      @afterChartRender()
+
 
     buildAreaCharts: ->
+      model = new JSONModel({ crimes: [] });
+      $.ajax({ method: 'GET', url: '/api/crimes/?group=year,district', headers: { 'Content-Type': 'application/json' } }).then( (data) ->
+        model.setData({ crimes: data });
+      );
       dataset = new FlattenedDataset({
         dimensions: [{
           name: "Year"
@@ -68,10 +81,11 @@ sap.ui.define [
         }],
         measures: [{
           name: "Count"
-          value: "count"
+          value: "{count}"
         }],
-        data: { path: '/crimes?group=year,district' }
+        data: { path: '/crimes' }
       })
+      dataset.setModel( model );
       vizopts = {
         height: "700px",
         width: "100%",
@@ -79,18 +93,33 @@ sap.ui.define [
           applicationSet: "fiori"
         }
       }
-      feedCount  = new FeedItem({ uid: "primaryValues", type: "Measure",   values: ["Count"] })
-      feedLabels = new FeedItem({ uid: "axisLabels",    type: "Dimension", values: ["Year","District"] })
       container = @byId "chartContainer"
       charts = [
-        new VizFrame(vizopts).setDataset( dataset.clone() ).addFeed( feedCount.clone() ).addFeed( feedLabels.clone() )
-        new VizFrame(vizopts).setDataset( dataset.clone() ).addFeed( feedCount.clone() ).addFeed( feedLabels.clone() )
-        new VizFrame(vizopts).setDataset( dataset.clone() ).addFeed( feedCount.clone() ).addFeed( feedLabels.clone() )
-      ].map( (chart) -> new ChartContainerContent({ content: chart }) ).forEach( (content) ->
+        @setFeeds(new VizFrame(vizopts),[
+          ['primaryValues', 'Count', true]
+          ['color',         'District']
+          ['axisLabels',    'Year']
+        ]).setDataset( dataset.clone() ).setVizType('line')
+        @setFeeds(new VizFrame(vizopts),[
+          ['color',         'Count', true]
+          ['categoryAxis',  'Year']
+          ['categoryAxis2', 'District']
+        ]).setDataset( dataset.clone() ).setVizType('heatmap')
+        @setFeeds(new VizFrame(vizopts),[
+          ['primaryValues', 'Count', true]
+          ['color',         'Year']
+          ['axisLabels',    'District']
+        ]).setDataset( dataset.clone() ).setVizType('stacked_bar')
+      ].map( (chart) -> new ChartContainerContent({ content: chart, icon: "sap-icon://"+chart.getVizType().replace('_','-')+'-chart' }) ).forEach( (content) ->
         container.addContent( content )
       )
+      @afterChartRender()
 
     buildTypeCharts: ->
+      model = new JSONModel({ crimes: [] });
+      $.ajax({ method: 'GET', url: '/api/crimes/?group=year,primary_type', headers: { 'Content-Type': 'application/json' } }).then( (data) ->
+        model.setData({ crimes: data });
+      );
       dataset = new FlattenedDataset({
         dimensions: [{
           name: "Year"
@@ -101,31 +130,61 @@ sap.ui.define [
         }],
         measures: [{
           name: "Count"
-          value: "count"
+          value: "{count}"
         }],
-        data: { path: '/crimes?group=year,primary_type' }
+        data: { path: '/crimes' }
       })
+      dataset.setModel( model );
       vizopts = {
         height: "700px",
         width: "100%",
         uiConfig: {
           applicationSet: "fiori"
-        }
+        },
+
       }
-      feedCount  = new FeedItem({ uid: "primaryValues", type: "Measure",   values: ["Count"] })
-      feedLabels = new FeedItem({ uid: "axisLabels",    type: "Dimension", values: ["Year","Type"] })
       container = @byId "chartContainer"
       charts = [
-        new VizFrame(vizopts).setDataset( dataset.clone() ).addFeed( feedCount.clone() ).addFeed( feedLabels.clone() )
-        new VizFrame(vizopts).setDataset( dataset.clone() ).addFeed( feedCount.clone() ).addFeed( feedLabels.clone() )
-        new VizFrame(vizopts).setDataset( dataset.clone() ).addFeed( feedCount.clone() ).addFeed( feedLabels.clone() )
-      ].map( (chart) -> new ChartContainerContent({ content: chart }) ).forEach( (content) ->
+        @setFeeds(new VizFrame(vizopts),[
+          ['primaryValues', 'Count', true]
+          ['color',         'Type']
+          ['axisLabels',    'Year']
+        ]).setDataset( dataset.clone() ).setVizType('line')
+        @setFeeds(new VizFrame(vizopts),[
+          ['color',         'Count', true]
+          ['categoryAxis',  'Year']
+          ['categoryAxis2', 'Type']
+        ]).setDataset( dataset.clone() ).setVizType('heatmap')
+        @setFeeds(new VizFrame(vizopts),[
+          ['primaryValues', 'Count', true]
+          ['color',         'Year']
+          ['axisLabels',    'Type']
+        ]).setDataset( dataset.clone() ).setVizType('stacked_bar')
+      ].map( (chart) -> new ChartContainerContent({ content: chart, icon: "sap-icon://"+chart.getVizType().replace('_','-')+'-chart' }) ).forEach( (content) ->
         container.addContent( content )
       )
+      @afterChartRender()
+
+    setFeeds: (chart, feeds) ->
+      feeds.forEach((feed)->
+        chart.addFeed( new FeedItem({ uid: feed[0], values: [feed[1]], type: if feed[2] then 'Measure' else 'Dimension' }));
+      )
+      chart
 
     constraintsChange: ->
       filters = @buildFilters()
       container = @byId "chartContainer"
+
+    contentChange: (evt) ->
+      id = evt.getParameter "selectedItemId"
+      @byId("vizPopover").connect( sap.ui.getCore().byId( id ).getVizUid() );
+
+    afterChartRender: ->
+      popover = @byId("vizPopover")
+      container = @byId("chartContainer");
+      setTimeout(->
+        popover.connect( container.getContent()[0].getContent().getVizUid() );
+      ,0)
 
     buildFilters: ->
       filters = []

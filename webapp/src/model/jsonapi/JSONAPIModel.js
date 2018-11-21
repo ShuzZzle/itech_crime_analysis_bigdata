@@ -143,29 +143,31 @@ sap.ui.define([
     },
 
     processList: function( data ) {
-      var meta  = data.meta;
-      var array = data.data.map( this.processElement.bind( this ) );
-      array.meta = meta;
+      // var meta  = data.meta;
+      var array = data.results.map( this.processElement.bind( this ) );
+      // array.meta = meta;
       return array;
     },
 
-    processElement: function( data )
+    processElement: function( data, id )
     {
-      if ( data.data ) data = data.data;
+      /*if ( data.data ) data = data.data;
       var id   = data.id;
       var type = data.type;
       var meta = data.meta;
-      var atts = data.attributes;
-      var rels = Object.keys( data.relationships ).map( key => ({ key: key, value: this.processList( data.relationships[ key ] ) }) ).reduce( (rels,entry) => {
+      var atts = data.attributes;*/
+      var type = 'crimes';
+      var atts = data;
+      /*var rels = Object.keys( data.relationships ).map( key => ({ key: key, value: this.processList( data.relationships[ key ] ) }) ).reduce( (rels,entry) => {
         rels[ entry.key ] = entry.value;
         return rels;
-      }, {});
+      }, {});*/
       var result = {
         ...data,
-        relationships: rels,
+        //relationships: rels,
         id: id,
         type: type,
-        meta: meta,
+        //meta: meta,
         res: data
       };
       this.storeElement( type, id, result );

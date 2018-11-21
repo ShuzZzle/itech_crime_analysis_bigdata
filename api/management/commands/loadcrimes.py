@@ -42,6 +42,9 @@ class Command(BaseCommand):
         except ValueError:
             print("Error: " + string)
 
+    def insert(self, array):
+        pass
+
     def handle(self, *args, **options):
         crime_list = []
         processed_lines = 0
@@ -85,9 +88,15 @@ class Command(BaseCommand):
                     latitude=self.parse_float(row["Latitude"])
                 )
                 crime_list.append(crime)
-
-        Crimes.objects.bulk_create(
-            crime_list,
-            batch_size=5000
-        )
+                if processed_lines % 5000 == 0:
+                    Crimes.objects.bulk_create(
+                        crime_list,
+                        batch_size=5000
+                    )
+                    print("\rProcessed: {} Crime Objects".format(processed_lines), end="")
+                    crime_list = list()
+            Crimes.objects.bulk_create(
+                crime_list,
+                batch_size=5000
+            )
         self.stdout.write(self.style.SUCCESS('Successfully parsed dataset!'))

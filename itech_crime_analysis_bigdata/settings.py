@@ -49,42 +49,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework_json_api',
     'rest_framework',
     'api'
 ]
 
 REST_FRAMEWORK = {
-    'PAGE_SIZE': 10,
-    'EXCEPTION_HANDLER': 'rest_framework_json_api.exceptions.exception_handler',
-    'DEFAULT_PAGINATION_CLASS':
-        'rest_framework_json_api.pagination.JsonApiLimitOffsetPagination',
-    'DEFAULT_PARSER_CLASSES': (
-        'rest_framework_json_api.parsers.JSONParser',
-        'rest_framework.parsers.FormParser',
-        'rest_framework.parsers.MultiPartParser'
-    ),
-    'DEFAULT_RENDERER_CLASSES': (
-        'rest_framework_json_api.renderers.JSONRenderer',
-        # If you're performance testing, you will want to use the browseable API
-        # without forms, as the forms can generate their own queries.
-        # If performance testing, enable:
-        # 'example.utils.BrowsableAPIRendererWithoutForms',
-        # Otherwise, to play around with the browseable API, enable:
-        'rest_framework.renderers.BrowsableAPIRenderer'
-    ),
-    'DEFAULT_METADATA_CLASS': 'rest_framework_json_api.metadata.JSONAPIMetadata',
-    'DEFAULT_FILTER_BACKENDS': (
-        'rest_framework_json_api.filters.QueryParameterValidationFilter',
-        'rest_framework_json_api.filters.OrderingFilter',
-        'rest_framework_json_api.django_filters.DjangoFilterBackend',
-        'rest_framework.filters.SearchFilter',
-    ),
-    'SEARCH_PARAM': 'filter[search]',
-    'TEST_REQUEST_RENDERER_CLASSES': (
-        'rest_framework_json_api.renderers.JSONRenderer',
-    ),
-    'TEST_REQUEST_DEFAULT_FORMAT': 'vnd.api+json'
+
 }
 
 MIDDLEWARE = [
@@ -124,8 +94,12 @@ WSGI_APPLICATION = 'itech_crime_analysis_bigdata.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'chicago_crime',
+        'USER': 'itechbs14',
+        'PASSWORD': 'schule',
+        'HOST': 'localhost',
+        'PORT': '1234',
     }
 }
 

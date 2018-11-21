@@ -44,6 +44,7 @@
 
       </f:SimpleForm>
     </Panel>
+    <Popover xmlns="sap.viz.ui5.controls" id="vizPopover" />
     <ChartContainer
       xmlns="sap.suite.ui.commons"
       id="chartContainer"
